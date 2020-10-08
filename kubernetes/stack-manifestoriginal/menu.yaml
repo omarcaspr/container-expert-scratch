@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menu
+  labels:
+    name: menu 
+spec:
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: menu
+  template:
+    metadata:
+      labels:
+        app: menu
+    spec:
+      containers:
+      - name: menu
+        image: kontinu/nginx-menu:v1.0
+        resources: {}
+        ports:
+          - containerPort: 80
+        env:
+          - name: FOO
+            value : bar
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: menu
+spec:
+  selector:
+    app: menu
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 31001
+    port: 80
+    targetPort: 80
+

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back
+  labels:
+    name: back 
+spec:
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: back
+        image: kontinu/go-expert:v1.0
+        resources: {}
+        ports:
+          - containerPort: 8080
+        env:
+          - name: FOO
+            value : bar
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: back
+spec:
+  selector:
+    app: back
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 31004
+    port: 80
+    targetPort: 8080
+

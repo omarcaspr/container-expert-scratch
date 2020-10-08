@@ -1,0 +1,50 @@
+version: "3.7"
+networks: 
+    - mynetwork
+services: 
+    anyapp:
+        build:
+            context: src/${PROJECT_LANG:-python}
+        image: ${DOCKER_REPO:-aoesis}/${PROJECT_LANG}-expert:v1.0
+        environment: 
+            - FOO=bar
+            - VAR=var
+        init: true
+        ports: 
+            - 9090:8080
+        networks: 
+            - mynetwork
+    anyapp2:
+        build:
+            context: src/go
+        image: ${DOCKER_REPO:-aoesis}/go-expert:v1.0
+        environment: 
+            - FOO=bar
+            - VAR=var
+        init: true
+        ports: 
+            - 9091:8080
+        networks: 
+            - mynetwork
+    db:
+        image: redis:alpine
+        restart: on-faiure
+        networks: 
+            - mynetwork
+    nginx:
+        image: nginx:alpine
+        networks: 
+            - mynetwork
+
+
+    helloworld:
+        build:
+            context: src/helloworld
+        image: ${DOCKER_REPO:-aoesis}/helloworld-expert:v1.0
+        environment: 
+            - FOO=bar
+            - VAR=var
+        init: true
+        ports: 
+            - 9080:8080
+    

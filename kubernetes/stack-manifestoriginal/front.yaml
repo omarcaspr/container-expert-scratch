@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+  labels:
+    name: front 
+spec:
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: front
+        image: kontinu/python-expert:v1.5
+        resources: {}
+        ports:
+          - containerPort: 8080
+            name: web
+        env:
+          - name: NEXT_URL
+            value : http://middle/api
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+spec:
+  selector:
+    app: front
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 31002
+    port: 80
+    targetPort: web
+
