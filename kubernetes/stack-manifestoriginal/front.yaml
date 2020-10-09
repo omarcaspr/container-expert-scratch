@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: front
-        image: kontinu/python-expert:v1.5
+        image: 097268227507.dkr.ecr.us-east-1.amazonaws.com/omarepo:dfc3b55
         resources: {}
         ports:
           - containerPort: 8080
