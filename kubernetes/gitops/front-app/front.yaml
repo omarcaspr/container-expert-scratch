@@ -48,9 +48,8 @@ metadata:
 spec:
   selector:
     name: front
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name:  web
     port:  80
     targetPort:  http
-

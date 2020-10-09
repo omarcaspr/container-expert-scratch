@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: back
 spec:
-  #replicas: 2
+  replicas: 2
   selector:
     matchLabels:
       name: back
@@ -33,7 +33,7 @@ metadata:
 spec:
   selector:
     name: back
-  type: NodePort
+  type: ClusterIP
   ports:
   - name:  web
     port:  80
