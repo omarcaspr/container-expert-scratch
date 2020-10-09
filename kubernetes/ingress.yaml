@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: "app.kontinu.local"
+    http:
+      paths:
+      - path: /back
+        pathType: Prefix
+        backend:
+          serviceName: back
+          servicePort: 80
+      - path: /front
+        pathType: Prefix
+        backend:
+          serviceName: front
+          servicePort: 80
+
+      - path: /middle
+        pathType: Prefix
+        backend:
+          serviceName: middle
+          servicePort: 80
+
+      - path: /menu
+        pathType: Prefix
+        backend:
+          serviceName: menu
+          servicePort: 80
